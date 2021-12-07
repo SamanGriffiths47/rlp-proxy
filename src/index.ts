@@ -71,12 +71,14 @@ app.get('/v2', async (req, res) => {
         : images.length > 0
         ? images[0].url
         : `${SERVER_URL}/img-placeholder.jpg`;
-      const description = og.description
+      const description = req.query.description
+        ? req.query.url as unknown as string
+        : og.description
         ? og.description
         : meta.description
         ? meta.description
         : null;
-      const title = (og.title ? og.title : meta.title) || '';
+      const title = (req.query.title ? req.query.title as unknown as string : og.title ? og.title : meta.title) || '';
       const siteName = og.site_name || '';
 
       output = {
